@@ -1,0 +1,41 @@
+{
+  "name": "changy-dom",
+  "version": "1.0.0",
+  "description": "Make dom changeable.",
+  "main": "./dist/index.js",
+  "scripts": {
+    "watch": "webpack --watch",
+    "build": "webpack --mode=production",
+    "test": "webpack-dev-server --config ./test/webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lunuy/changy-dom.git"
+  },
+  "keywords": [
+    "dom",
+    "changeable",
+    "reactive",
+    "changy"
+  ],
+  "author": "Lunuy",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/Lunuy/changy-dom/issues"
+  },
+  "homepage": "https://github.com/Lunuy/changy-dom#readme",
+  "devDependencies": {
+    "@babel/core": "^7.8.6",
+    "@babel/preset-env": "^7.8.6",
+    "babel-loader": "^8.0.6",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.8.3",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "dependencies": {
+    "changy": "^6.2.0"
+  }
+}
