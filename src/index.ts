@@ -4,6 +4,7 @@ import Element from "./Node/Element";
 import EventTarget from "./Node/EventTarget";
 import HTMLElement from "./Node/HTMLElement";
 import Node from "./Node/Node";
+import createElementJSX from "./Util/createElementJSX";
 
 export {
     Element,
@@ -11,5 +12,6 @@ export {
     HTMLElement,
     Node,
     DOMString,
-    createElement
+    createElement,
+    createElementJSX
 }

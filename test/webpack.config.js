@@ -12,7 +12,11 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env']
+            presets: ['@babel/preset-env'],
+            plugins: [
+              "@babel/plugin-syntax-jsx",
+              ["@babel/plugin-transform-react-jsx", { "pragma": "ChangyDom.createElementJSX" }]
+            ]
           }
         }
       }
