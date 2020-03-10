@@ -2,6 +2,7 @@ const { Number, O, Object, String, Array, Function } = require("changy");
 const ChangyDom = require("../dist/index");
 
 const root = document.getElementById("root");
+const target_div = root.childNodes[0];
 
 const memos = new Array([new String("first Memo")]);
 
@@ -18,18 +19,20 @@ function MemoInput({[O]:{memos}}) {
     );
 }
 
-const div = (
+const div = ChangyDom.hydrate(target_div)(
     <div>
         <MemoInput memos={memos}/>
         {
-            memos.map(
+            memos.Map(
                 new Function((memo) => {
-                    return <input type="text" style="display: block; border:none;" value={memo}/>
+                    return <input type="text" style={{
+                        display: "block",
+                        border: "none"
+                    }} value={memo}/>
                 })
             )
         }
-        슈바슈바
     </div>
 );
 
-root.appendChild(div[O]);
+//root.appendChild(div[O]);

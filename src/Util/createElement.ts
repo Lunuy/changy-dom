@@ -1,10 +1,15 @@
 import HTMLElement from "../Node/HTMLElement";
 import SVGElement from "../Node/SVGElement";
-import { Object, String, Function, Array, O, C, S } from "changy";
+import { Object, String, Function, Array, O, C, S, Changeable, Primitive } from "changy";
 import OriginalObject from "../Originals/Object";
 import Node from "../Node/Node";
 import OriginalFunction from "../Originals/Function";
 import OriginalString from "../Originals/String";
+import document from "../Document/document";
+import state from "../State/state";
+
+type Remove<A, B> = A extends B ? never : A;
+type CSSProp = Remove<keyof CSSStyleDeclaration, "length" | "parentRule" | number>;
 
 export interface ElementClasses {
 
@@ -13,10 +18,10 @@ const elementClasses : ElementClasses = {
 
 };
 
-export type attributeNames = ["accept", "accept-charset", "accesskey", "action", "align", "allow", "alt", "async", "autocapitalize", "autocomplete", "autofocus", "autoplay", "background", "bgcolor", "border", "buffered", "capture", "challenge", "charset", "checked", "cite", "class", "code", "codebase", "color", "cols", "colspan", "content", "contenteditable", "contextmenu", "controls", "coords", "crossorigin", "csp", "data", "datetime", "decoding", "default", "defer", "dir", "dirname", "disabled", "download", "draggable", "dropzone", "enctype", "enterkeyhint", "for", "form", "formaction", "formenctype", "formmethod", "formnovalidate", "formtarget", "headers", "height", "hidden", "high", "href", "hreflang", "http-equiv", "icon", "id", "importance", "integrity", "intrinsicsize", "inputmode", "ismap", "itemprop", "keytype", "kind", "label", "lang", "language", "list", "loading", "list", "loop", "low", "manifest", "max", "maxlength", "minlength", "media", "method", "min", "multiple", "muted", "name", "novalidate", "open", "optimum", "pattern", "ping", "placeholder", "poster", "preload", "radiogroup", "readonly", "rel", "required", "reversed", "rows", "rowspan", "sandbox", "scope", "scoped", "selected", "shape", "size", "sizes", "slot", "span", "spellcheck", "src", "srcdoc", "srclang", "srcset", "start", "step", "style", "summary", "tabindex", "target", "title", "translate", "type", "usemap", "value", "width", "wrap"];
-export const attributeNames = ["accept", "accept-charset", "accesskey", "action", "align", "allow", "alt", "async", "autocapitalize", "autocomplete", "autofocus", "autoplay", "background", "bgcolor", "border", "buffered", "capture", "challenge", "charset", "checked", "cite", "class", "code", "codebase", "color", "cols", "colspan", "content", "contenteditable", "contextmenu", "controls", "coords", "crossorigin", "csp", "data", "datetime", "decoding", "default", "defer", "dir", "dirname", "disabled", "download", "draggable", "dropzone", "enctype", "enterkeyhint", "for", "form", "formaction", "formenctype", "formmethod", "formnovalidate", "formtarget", "headers", "height", "hidden", "high", "href", "hreflang", "http-equiv", "icon", "id", "importance", "integrity", "intrinsicsize", "inputmode", "ismap", "itemprop", "keytype", "kind", "label", "lang", "language", "list", "loading", "list", "loop", "low", "manifest", "max", "maxlength", "minlength", "media", "method", "min", "multiple", "muted", "name", "novalidate", "open", "optimum", "pattern", "ping", "placeholder", "poster", "preload", "radiogroup", "readonly", "rel", "required", "reversed", "rows", "rowspan", "sandbox", "scope", "scoped", "selected", "shape", "size", "sizes", "slot", "span", "spellcheck", "src", "srcdoc", "srclang", "srcset", "start", "step", "style", "summary", "tabindex", "target", "title", "translate", "type", "usemap", "value", "width", "wrap"];
+export type attributeNames = ["accept", "accept-charset", "accesskey", "action", "align", "allow", "alt", "async", "autocapitalize", "autocomplete", "autofocus", "autoplay", "background", "bgcolor", "border", "buffered", "capture", "challenge", "charset", "checked", "cite", "class", "code", "codebase", "color", "cols", "colspan", "content", "contenteditable", "contextmenu", "controls", "coords", "crossorigin", "csp", "data", "datetime", "decoding", "default", "defer", "dir", "dirname", "disabled", "download", "draggable", "dropzone", "enctype", "enterkeyhint", "for", "form", "formaction", "formenctype", "formmethod", "formnovalidate", "formtarget", "headers", "height", "hidden", "high", "href", "hreflang", "http-equiv", "icon", "id", "importance", "integrity", "intrinsicsize", "inputmode", "ismap", "itemprop", "keytype", "kind", "label", "lang", "language", "list", "loading", "list", "loop", "low", "manifest", "max", "maxlength", "minlength", "media", "method", "min", "multiple", "muted", "name", "novalidate", "open", "optimum", "pattern", "ping", "placeholder", "poster", "preload", "radiogroup", "readonly", "rel", "required", "reversed", "rows", "rowspan", "sandbox", "scope", "scoped", "selected", "shape", "size", "sizes", "slot", "span", "spellcheck", "src", "srcdoc", "srclang", "srcset", "start", "step", "summary", "tabindex", "target", "title", "translate", "type", "usemap", "value", "width", "wrap"];
+export const attributeNames = ["accept", "accept-charset", "accesskey", "action", "align", "allow", "alt", "async", "autocapitalize", "autocomplete", "autofocus", "autoplay", "background", "bgcolor", "border", "buffered", "capture", "challenge", "charset", "checked", "cite", "class", "code", "codebase", "color", "cols", "colspan", "content", "contenteditable", "contextmenu", "controls", "coords", "crossorigin", "csp", "data", "datetime", "decoding", "default", "defer", "dir", "dirname", "disabled", "download", "draggable", "dropzone", "enctype", "enterkeyhint", "for", "form", "formaction", "formenctype", "formmethod", "formnovalidate", "formtarget", "headers", "height", "hidden", "high", "href", "hreflang", "http-equiv", "icon", "id", "importance", "integrity", "intrinsicsize", "inputmode", "ismap", "itemprop", "keytype", "kind", "label", "lang", "language", "list", "loading", "list", "loop", "low", "manifest", "max", "maxlength", "minlength", "media", "method", "min", "multiple", "muted", "name", "novalidate", "open", "optimum", "pattern", "ping", "placeholder", "poster", "preload", "radiogroup", "readonly", "rel", "required", "reversed", "rows", "rowspan", "sandbox", "scope", "scoped", "selected", "shape", "size", "sizes", "slot", "span", "spellcheck", "src", "srcdoc", "srclang", "srcset", "start", "step", "summary", "tabindex", "target", "title", "translate", "type", "usemap", "value", "width", "wrap"];
+//AND data-*, style
 
-//AND data-*
 export type eventNames = ["abort", "afterprint", "animationend", "animationiteration", "animationstart", "appinstalled", "audioprocess", "audioend", "audiostart", "beforeprint", "beforeunload", "beginEvent", "blocked", "blur", "boundary", "cached", "canplay", "canplaythrough", "change", "chargingchange", "chargingtimechange", "checking", "click", "close", "complete", "compositionend", "compositionstart", "compositionupdate", "contextmenu", "copy", "cut", "dblclick", "devicechange", "devicelight", "devicemotion", "deviceorientation", "deviceproximity", "dischargingtimechange", "DOMActivate", "DOMAttributeNameChanged", "DOMAttrModified", "DOMCharacterDataModified", "DOMContentLoaded", "DOMElementNameChanged", "DOMFocusIn", "DOMFocusOut", "DOMNodeInserted", "DOMNodeInsertedIntoDocument", "DOMNodeRemoved", "DOMNodeRemovedFromDocument", "DOMSubtreeModified", "downloading", "drag", "dragend", "dragenter", "dragleave", "dragover", "dragstart", "drop", "durationchange", "emptied", "end", "ended", "endEvent", "error", "focus", "focusin", "focusout", "fullscreenchange", "fullscreenerror", "gamepadconnected", "gamepaddisconnected", "gotpointercapture", "hashchange", "lostpointercapture", "input", "invalid", "keydown", "keypress", "keyup", "languagechange", "levelchange", "load", "loadeddata", "loadedmetadata", "loadend", "loadstart", "mark", "message", "messageerror", "message", "mousedown", "mouseenter", "mouseleave", "mousemove", "mouseout", "mouseover", "mouseup", "nomatch", "notificationclick", "noupdate", "obsolete", "offline", "online", "open", "orientationchange", "pagehide", "pageshow", "paste", "pause", "pointercancel", "pointerdown", "pointerenter", "pointerleave", "pointerlockchange", "pointerlockerror", "pointermove", "pointerout", "pointerover", "pointerup", "play", "playing", "popstate", "progress", "push", "pushsubscriptionchange", "ratechange", "readystatechange", "repeatEvent", "reset", "resize", "resourcetimingbufferfull", "result", "resume", "scroll", "seeked", "seeking", "select", "selectstart", "selectionchange", "show", "slotchange", "soundend", "soundstart", "speechend", "speechstart", "stalled", "start", "storage", "submit", "success", "suspend", "SVGAbort", "SVGError", "SVGLoad", "SVGResize", "SVGScroll", "SVGUnload", "SVGZoom", "timeout", "timeupdate", "touchcancel", "touchend", "touchmove", "touchstart", "transitionend", "unload", "updateready", "upgradeneeded", "userproximity", "voiceschanged", "versionchange", "visibilitychange", "volumechange", "waiting", "wheel"];
 export const eventNames = ["abort", "afterprint", "animationend", "animationiteration", "animationstart", "appinstalled", "audioprocess", "audioend", "audiostart", "beforeprint", "beforeunload", "beginEvent", "blocked", "blur", "boundary", "cached", "canplay", "canplaythrough", "change", "chargingchange", "chargingtimechange", "checking", "click", "close", "complete", "compositionend", "compositionstart", "compositionupdate", "contextmenu", "copy", "cut", "dblclick", "devicechange", "devicelight", "devicemotion", "deviceorientation", "deviceproximity", "dischargingtimechange", "DOMActivate", "DOMAttributeNameChanged", "DOMAttrModified", "DOMCharacterDataModified", "DOMContentLoaded", "DOMElementNameChanged", "DOMFocusIn", "DOMFocusOut", "DOMNodeInserted", "DOMNodeInsertedIntoDocument", "DOMNodeRemoved", "DOMNodeRemovedFromDocument", "DOMSubtreeModified", "downloading", "drag", "dragend", "dragenter", "dragleave", "dragover", "dragstart", "drop", "durationchange", "emptied", "end", "ended", "endEvent", "error", "focus", "focusin", "focusout", "fullscreenchange", "fullscreenerror", "gamepadconnected", "gamepaddisconnected", "gotpointercapture", "hashchange", "lostpointercapture", "input", "invalid", "keydown", "keypress", "keyup", "languagechange", "levelchange", "load", "loadeddata", "loadedmetadata", "loadend", "loadstart", "mark", "message", "messageerror", "message", "mousedown", "mouseenter", "mouseleave", "mousemove", "mouseout", "mouseover", "mouseup", "nomatch", "notificationclick", "noupdate", "obsolete", "offline", "online", "open", "orientationchange", "pagehide", "pageshow", "paste", "pause", "pointercancel", "pointerdown", "pointerenter", "pointerleave", "pointerlockchange", "pointerlockerror", "pointermove", "pointerout", "pointerover", "pointerup", "play", "playing", "popstate", "progress", "push", "pushsubscriptionchange", "ratechange", "readystatechange", "repeatEvent", "reset", "resize", "resourcetimingbufferfull", "result", "resume", "scroll", "seeked", "seeking", "select", "selectstart", "selectionchange", "show", "slotchange", "soundend", "soundstart", "speechend", "speechstart", "stalled", "start", "storage", "submit", "success", "suspend", "SVGAbort", "SVGError", "SVGLoad", "SVGResize", "SVGScroll", "SVGUnload", "SVGZoom", "timeout", "timeupdate", "touchcancel", "touchend", "touchmove", "touchstart", "transitionend", "unload", "updateready", "upgradeneeded", "userproximity", "voiceschanged", "versionchange", "visibilitychange", "volumechange", "waiting", "wheel"];
 
@@ -58,152 +63,148 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
                     :
                     never
 {
+    const propertiesEntries = Object.Entries(properties);
+    const attributes = <Object<{[attributeName in attributeNames[number]]?: String}>>Object.FromEntries(propertiesEntries.Filter(new Function(([name, value]) => {
+        return !eventListenerNames.includes(name) && !(typeof type === "function" && !attributeNames.includes(name));
+    })).Map(new Function(([name, value]) => {
+        return [name, value instanceof String ? value : new String(value)];
+    })));
+    const eventListeners = <Object<{[eventListenerName in eventListenerNames[number]]?: Function<EventListener>}>>Object.FromEntries(propertiesEntries.Filter(new Function(([name, value]) => {
+        return eventListenerNames.includes(name);
+    })).Map(new Function(([name, value]) => {
+        return [name, value instanceof Function ? value : new Function(value)];
+    })));
+    const options = Object.FromEntries(propertiesEntries.Filter(new Function(([name, value]) => {
+        return !eventListenerNames.includes(name) && (typeof type === "function" && !attributeNames.includes(name));
+    })));
+    const style = <Primitive<Object<{[K in CSSProp]: String}>>> properties.Get(new String("style"));
 
-    //create init values.
-    const originalPropertiesForFunction : {[name : string]: any} = {};
-    const originalAttributes : {[attributeName in attributeNames[number]]?: String} = {};
-    const originalEventListeners : {[eventListenerName in eventListenerNames[number]]?: Function<EventListener>} = {};
-    OriginalObject.entries(properties[O]).forEach(([propertyName, value]) => {
-        if(attributeNames.includes(propertyName)) {
-            originalAttributes[<attributeNames[number]>propertyName] = value instanceof String ? value : new String(OriginalString(value));
-        } else if(eventListenerNames.includes(propertyName)) {
-            originalEventListeners[<eventListenerNames[number]>propertyName] = value instanceof Function ? value : new Function(value);
-        } else {
-            if(type instanceof OriginalFunction) {
-                originalPropertiesForFunction[propertyName] = value;
-            } else {
-                originalAttributes[<attributeNames[number]>propertyName] = value instanceof String ? value : new String(OriginalString(value));
-            }
-        }
-    });
 
-    //create result.
-    let result : Element<K>;
-    let propertiesForFunction : Object<{[name : string]: any}>;
-    if(type instanceof OriginalFunction) {
-        propertiesForFunction = new Object(originalPropertiesForFunction);
-        result = type(propertiesForFunction, childNodes);
-    } else {
-        if(htmlElementTagNames.includes(type)) { //html
-            let element = document.createElement(<keyof HTMLElementTagNameMap>type);
-            result = (<any>elementClasses)[type] ? new (<any>elementClasses)[type](element) : new HTMLElement(element);
-        } else { //svg
-            let element = document.createElementNS("http://www.w3.org/2000/svg", <keyof SVGElementTagNameMap>type);
-            result = (<any>elementClasses)[type] ? new (<any>elementClasses)[type](element) : new SVGElement(element);
-        }
-    }
+    /* Listener... */
 
-    //set & listen attribute, eventListener
-    const propertyListenerRemovers : {[attributeName : string]: OriginalFunction} = {};
-    function addAttributeListener(attributeName : string, value : String) {
-        const listener = (value : string) => {
-            result.setAttribute(attributeName, value);
+    const eventListenerListenerRemovers : {[eventName : string]: () => void} = {};
+    const addEventListenerListener = (name : string, value : Function<EventListener>) => {
+        const listener = (value : EventListener, prevValue : EventListener) => {
+            result[O].removeEventListener(name.substr(2), prevValue);
+            result[O].addEventListener(name.substr(2), value);
+        };
+        eventListenerListenerRemovers[name] = () => {
+            value[C].off("set", listener);
+            result[O].removeEventListener(name.substr(2), value[O].value);
+            delete eventListenerListenerRemovers[name];
         };
         value[C].on("set", listener);
-        propertyListenerRemovers[attributeName] = () => {
-            value[C].off("set", listener);
-            delete propertyListenerRemovers[attributeName];
-        };
-    }
-    function addEventListenerListener(eventName : string, f : Function<EventListener>) {
-        let beforeF = f[O].value;
-        const listener = (f : EventListener) => {
-            result.removeEventListener(eventName.substr(2), beforeF);
-            result.addEventListener(eventName.substr(2), f);
-            beforeF = f;
-        };
-        f[C].on("set", listener);
-        propertyListenerRemovers[eventName] = () => {
-            f[C].off("set", listener);
-            delete propertyListenerRemovers[eventName];
-        };
-    }
 
-    //set
-    OriginalObject.entries(originalAttributes).forEach(([attributeName, value]) => { //attributes
-        result.setAttribute(attributeName, value[O].value);
-        addAttributeListener(attributeName, value);
-    });
-    OriginalObject.entries(originalEventListeners).forEach(([eventName, f]) => { //eventListeners
-        result.addEventListener(eventName.substr(2), f[O].value);
-        addEventListenerListener(eventName, f);
-    });
-    if(!(type instanceof OriginalFunction)) {
-        childNodes[O].forEach(childNode => { //childNodes
-            result.appendChild(childNode[O]);
-        });
-    }
+        result[O].addEventListener(name.substr(2), value[O].value);
+    };
 
-    //listen
-    const propertiesListeners = {
-        set(propertyName : string, value : any, beforeValue : any) {
-            if(attributeNames.includes(propertyName)) { //attribute
-                if(beforeValue) {
-                    propertyListenerRemovers[propertyName]();
-                }
-                if(!(value instanceof String)) value = new String(OriginalString(value));
-                result.setAttribute(propertyName, value[O].value);
-                addAttributeListener(propertyName, value);
-            } else if(eventListenerNames.includes(propertyName)) { //eventListener
-                if(beforeValue) {
-                    propertyListenerRemovers[propertyName]();
-                    result.removeEventListener(propertyName.substr(2), beforeValue);
-                }
-                if(!(value instanceof Function)) value = new Function(value);
-                result.addEventListener(propertyName.substr(2), value[O].value);
-                addEventListenerListener(propertyName, value);
-            } else {
-                if(type instanceof OriginalFunction) { //property
-                    propertiesForFunction.set(propertyName, value);
-                } else { //same as attribute
-                    if(beforeValue) {
-                        propertyListenerRemovers[propertyName]();
-                    }
-                    if(!(value instanceof String)) value = new String(OriginalString(value));
-                    result.setAttribute(propertyName, value[O].value);
-                    addAttributeListener(propertyName, value);
-                }
-            }
+    /* --- SETUP and LISTEN --- */
+
+    const result = <Element<any>> (
+                    typeof type === "function"
+                    ?
+                        type(options, childNodes)
+                    :
+                        htmlElementTagNames.includes(type)
+                        ?
+                            (<any>elementClasses)[type]
+                            ?
+                                new (<any>elementClasses)[type](document.createElement(<any>type))
+                            :
+                                new HTMLElement(document.createElement(<any>type))
+                        :
+                            (<any>elementClasses)[type]
+                            ?
+                                new (<any>elementClasses)[type](document.createElementSVG(<any>type))
+                            :
+                            new SVGElement(document.createElementSVG(<any>type))
+    );
+
+    //attributes
+    OriginalObject.entries(attributes[O]).forEach(([name, value]) => {
+        result.attributes.set(name, value);
+    });
+    const attributesListeners = {
+        set(name : string, value : String) {
+            result.attributes.set(name, value);
         },
-        unset(propertyName : string, value : any) {
-            if(attributeNames.includes(propertyName)) { //attribute
-                propertyListenerRemovers[propertyName]();
-                result.removeAttribute(propertyName);
-            } else if(eventListenerNames.includes(propertyName)) { //eventListener
-                propertyListenerRemovers[propertyName]();
-                result.removeEventListener(propertyName, value[O].value);
-            } else {
-                if(type instanceof OriginalFunction) { //property
-                    propertiesForFunction.unset(propertyName);
-                } else { //same as attribute
-                    propertyListenerRemovers[propertyName]();
-                    result.removeAttribute(propertyName);
-                }
-            }
-        }
-    }
-    const childNodesListener = (start : number, deleted : Node[], inserted : Node[]) => {
-        for(let i = 0; i < deleted.length; i++) {
-            result.removeChildIndex(start);
-        }
-        for(let i = 0; i < inserted.length; i++) {
-            result.insertIndex(inserted[i][O], start + i);
+        unset(name : string) {
+            result.attributes.unset(name);
         }
     };
 
-    properties[C].addListeners(propertiesListeners);
-    if(!(type instanceof OriginalFunction)) {
-        childNodes[C].on("splice", childNodesListener);
-    }
-
-    const prevS = result[S];
-    result[S] = () => {
-        prevS();
-        properties[C].removeListeners(propertiesListeners);
-        if(!(type instanceof OriginalFunction)) {
-            childNodes[C].off("splice", childNodesListener);
+    //listeners
+    OriginalObject.entries(eventListeners[O]).forEach(([name, value]) => {
+        addEventListenerListener(name, value);
+    });
+    const eventListenersListeners = {
+        set(name : string, value : Function<EventListener>) {
+            addEventListenerListener(name, value);
+        },
+        unset(name : string) {
+            eventListenerListenerRemovers[name]();
         }
-        OriginalObject.values(propertyListenerRemovers).forEach(remove => remove());
+    };
+
+    //childs
+    if(!state.getHydratingNode) {
+        result.childNodes.push(...(<ChildNode[]>(childNodes[O].map(childNode => childNode[O]))));
+    }
+    const childNodesListener = (start : number, deleted : Node[], inserted : Node[]) => {
+        result.childNodes.splice(start, deleted.length, ...(<ChildNode[]>inserted.map(insertedNode => insertedNode[O])));
+    };
+
+    //style
+    if(style[O].value) {
+        OriginalObject.entries(style[O].value[O]).forEach(([name, value] : [CSSProp, String]) => {
+            result.style.set(name, value instanceof String ? value : new String(value));
+        });
+    }
+    const styleValueListeners = {
+        set(name : string, value : String) {
+            result.style.set(name, value instanceof String ? value : new String(value));
+        },
+        unset(name : string) {
+            result.style.unset(name);
+        }
+    }
+    let stylePrevValue = style[O].value;
+    const styleListener = (value : Object<{[K in CSSProp]: String}>) => {
+        if(stylePrevValue) {
+            stylePrevValue[C].removeListeners(styleValueListeners);
+        }
+
+        if(value) {
+            value[C].addListeners(styleValueListeners);
+        } else {
+            if(stylePrevValue) {
+                OriginalObject.keys(stylePrevValue[O]).forEach(name => {
+                    result.style.unset(name);
+                });
+            }
+        }
+
+        stylePrevValue = value;
+    };
+
+
+
+
+    attributes[C].addListeners(attributesListeners);
+    eventListeners[C].addListeners(eventListenersListeners);
+    childNodes[C].on("splice", childNodesListener);
+    style[C].on("set", styleListener);
+
+    result[S] = () => {
+        propertiesEntries[S]();
+        style[S]();
+
+        OriginalObject.values(eventListenerListenerRemovers).forEach(remove => remove());
+        if(stylePrevValue) stylePrevValue[C].removeListeners(styleValueListeners);
+
+        attributes[C].removeListeners(attributesListeners);
+        eventListeners[C].removeListeners(eventListenersListeners);
+        childNodes[C].off("splice", childNodesListener);
     };
 
     return <any>result;
