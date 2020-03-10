@@ -5,5 +5,5 @@ interface State {
 }
 
 export default {
-    
+
 } as State;
