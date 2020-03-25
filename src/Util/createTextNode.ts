@@ -3,7 +3,7 @@ import Text from "../Node/Text";
 import OriginalText from "../Originals/Text";
 import document from "../Document/document";
 
-export default function createTextNode(text : String) {
+export default function createTextNode(text : String<any>) {
     const result = new Text(document.createTextNode(text[O].value));
 
     const textListener = (text : string) => {

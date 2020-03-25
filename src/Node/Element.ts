@@ -22,13 +22,13 @@ export default class Element extends Node {
     }
 
     attributes = (() => {
-        const result = new Object(<{[attributeName : string]: String}>OriginalObject.fromEntries(this[O].getAttributeNames().map(attributeName => [attributeName, new String(this[O].getAttribute(attributeName))])));
+        const result = new Object(<{[attributeName : string]: String<any>}>OriginalObject.fromEntries(this[O].getAttributeNames().map(attributeName => [attributeName, new String(this[O].getAttribute(attributeName))])));
 
         const attributeListenerRemovers : {[attributeName : string]: () => void} = {};
 
         const self = this;
         const resultListeners = {
-            set(key : string, value : String, beforeValue : String) {
+            set(key : string, value : String<any>, beforeValue : String<any>) {
                 if(attributeListenerRemovers[key]) attributeListenerRemovers[key]();
 
                 const listener = (value : string) => {
@@ -42,7 +42,7 @@ export default class Element extends Node {
 
                 self[O].setAttribute(key, value[O].value);
             },
-            unset(key : string, value : String) {
+            unset(key : string, value : String<any>) {
                 attributeListenerRemovers[key]();
                 self[O].removeAttribute(key);
             }

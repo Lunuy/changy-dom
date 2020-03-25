@@ -25,7 +25,7 @@ export default class HTMLElement<K extends keyof HTMLElementTagNameMap> extends 
 
     style = (() => {
         const result = new Object(
-            <{[K in CSSProp]? : String}>
+            <{[K in (CSSProp | string)]? : String<any>}>
             OriginalObject.fromEntries(OriginalObject.keys(this[O].style).filter(key => Number.isNaN(Number(key))).map((name : CSSProp) => [name, new String(this[O].style[name])]))
         );
 
@@ -33,11 +33,11 @@ export default class HTMLElement<K extends keyof HTMLElementTagNameMap> extends 
 
         const self = this;
         const resultListeners = {
-            set(key : CSSProp, value : String, beforeValue : String) {
+            set(key : CSSProp, value : String<any>, beforeValue : String<any>) {
                 if(propListenerRemovers[key]) propListenerRemovers[key]();
 
                 const listener = (value : string) => {
-                    self[O].style[key] = value;
+                    self[O].style.setProperty(key, value);
                 };
                 value[C].on("set", listener);
                 propListenerRemovers[key] = () => {
@@ -45,11 +45,11 @@ export default class HTMLElement<K extends keyof HTMLElementTagNameMap> extends 
                     delete propListenerRemovers[key];
                 };
 
-                self[O].style[key] = value[O].value;
+                self[O].style.setProperty(key, value[O].value);
             },
-            unset(key : CSSProp, value : String) {
+            unset(key : CSSProp, value : String<any>) {
                 propListenerRemovers[key]();
-                self[O].style[key] = "";
+                self[O].style.removeProperty(key);
             }
         };
 

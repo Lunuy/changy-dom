@@ -9,7 +9,7 @@ import document from "../Document/document";
 import state from "../State/state";
 
 type Remove<A, B> = A extends B ? never : A;
-type CSSProp = Remove<keyof CSSStyleDeclaration, "length" | "parentRule" | number>;
+export type CSSProp = Remove<keyof CSSStyleDeclaration, "length" | "parentRule" | number>;
 
 export interface ElementClasses {
 
@@ -20,7 +20,7 @@ const elementClasses : ElementClasses = {
 
 export type attributeNames = ["accept", "accept-charset", "accesskey", "action", "align", "allow", "alt", "async", "autocapitalize", "autocomplete", "autofocus", "autoplay", "background", "bgcolor", "border", "buffered", "capture", "challenge", "charset", "checked", "cite", "class", "code", "codebase", "color", "cols", "colspan", "content", "contenteditable", "contextmenu", "controls", "coords", "crossorigin", "csp", "data", "datetime", "decoding", "default", "defer", "dir", "dirname", "disabled", "download", "draggable", "dropzone", "enctype", "enterkeyhint", "for", "form", "formaction", "formenctype", "formmethod", "formnovalidate", "formtarget", "headers", "height", "hidden", "high", "href", "hreflang", "http-equiv", "icon", "id", "importance", "integrity", "intrinsicsize", "inputmode", "ismap", "itemprop", "keytype", "kind", "label", "lang", "language", "list", "loading", "list", "loop", "low", "manifest", "max", "maxlength", "minlength", "media", "method", "min", "multiple", "muted", "name", "novalidate", "open", "optimum", "pattern", "ping", "placeholder", "poster", "preload", "radiogroup", "readonly", "rel", "required", "reversed", "rows", "rowspan", "sandbox", "scope", "scoped", "selected", "shape", "size", "sizes", "slot", "span", "spellcheck", "src", "srcdoc", "srclang", "srcset", "start", "step", "summary", "tabindex", "target", "title", "translate", "type", "usemap", "value", "width", "wrap"];
 export const attributeNames = ["accept", "accept-charset", "accesskey", "action", "align", "allow", "alt", "async", "autocapitalize", "autocomplete", "autofocus", "autoplay", "background", "bgcolor", "border", "buffered", "capture", "challenge", "charset", "checked", "cite", "class", "code", "codebase", "color", "cols", "colspan", "content", "contenteditable", "contextmenu", "controls", "coords", "crossorigin", "csp", "data", "datetime", "decoding", "default", "defer", "dir", "dirname", "disabled", "download", "draggable", "dropzone", "enctype", "enterkeyhint", "for", "form", "formaction", "formenctype", "formmethod", "formnovalidate", "formtarget", "headers", "height", "hidden", "high", "href", "hreflang", "http-equiv", "icon", "id", "importance", "integrity", "intrinsicsize", "inputmode", "ismap", "itemprop", "keytype", "kind", "label", "lang", "language", "list", "loading", "list", "loop", "low", "manifest", "max", "maxlength", "minlength", "media", "method", "min", "multiple", "muted", "name", "novalidate", "open", "optimum", "pattern", "ping", "placeholder", "poster", "preload", "radiogroup", "readonly", "rel", "required", "reversed", "rows", "rowspan", "sandbox", "scope", "scoped", "selected", "shape", "size", "sizes", "slot", "span", "spellcheck", "src", "srcdoc", "srclang", "srcset", "start", "step", "summary", "tabindex", "target", "title", "translate", "type", "usemap", "value", "width", "wrap"];
-//AND data-*, style
+//AND data-* (not support yet)
 
 export type eventNames = ["abort", "afterprint", "animationend", "animationiteration", "animationstart", "appinstalled", "audioprocess", "audioend", "audiostart", "beforeprint", "beforeunload", "beginEvent", "blocked", "blur", "boundary", "cached", "canplay", "canplaythrough", "change", "chargingchange", "chargingtimechange", "checking", "click", "close", "complete", "compositionend", "compositionstart", "compositionupdate", "contextmenu", "copy", "cut", "dblclick", "devicechange", "devicelight", "devicemotion", "deviceorientation", "deviceproximity", "dischargingtimechange", "DOMActivate", "DOMAttributeNameChanged", "DOMAttrModified", "DOMCharacterDataModified", "DOMContentLoaded", "DOMElementNameChanged", "DOMFocusIn", "DOMFocusOut", "DOMNodeInserted", "DOMNodeInsertedIntoDocument", "DOMNodeRemoved", "DOMNodeRemovedFromDocument", "DOMSubtreeModified", "downloading", "drag", "dragend", "dragenter", "dragleave", "dragover", "dragstart", "drop", "durationchange", "emptied", "end", "ended", "endEvent", "error", "focus", "focusin", "focusout", "fullscreenchange", "fullscreenerror", "gamepadconnected", "gamepaddisconnected", "gotpointercapture", "hashchange", "lostpointercapture", "input", "invalid", "keydown", "keypress", "keyup", "languagechange", "levelchange", "load", "loadeddata", "loadedmetadata", "loadend", "loadstart", "mark", "message", "messageerror", "message", "mousedown", "mouseenter", "mouseleave", "mousemove", "mouseout", "mouseover", "mouseup", "nomatch", "notificationclick", "noupdate", "obsolete", "offline", "online", "open", "orientationchange", "pagehide", "pageshow", "paste", "pause", "pointercancel", "pointerdown", "pointerenter", "pointerleave", "pointerlockchange", "pointerlockerror", "pointermove", "pointerout", "pointerover", "pointerup", "play", "playing", "popstate", "progress", "push", "pushsubscriptionchange", "ratechange", "readystatechange", "repeatEvent", "reset", "resize", "resourcetimingbufferfull", "result", "resume", "scroll", "seeked", "seeking", "select", "selectstart", "selectionchange", "show", "slotchange", "soundend", "soundstart", "speechend", "speechstart", "stalled", "start", "storage", "submit", "success", "suspend", "SVGAbort", "SVGError", "SVGLoad", "SVGResize", "SVGScroll", "SVGUnload", "SVGZoom", "timeout", "timeupdate", "touchcancel", "touchend", "touchmove", "touchstart", "transitionend", "unload", "updateready", "upgradeneeded", "userproximity", "voiceschanged", "versionchange", "visibilitychange", "volumechange", "waiting", "wheel"];
 export const eventNames = ["abort", "afterprint", "animationend", "animationiteration", "animationstart", "appinstalled", "audioprocess", "audioend", "audiostart", "beforeprint", "beforeunload", "beginEvent", "blocked", "blur", "boundary", "cached", "canplay", "canplaythrough", "change", "chargingchange", "chargingtimechange", "checking", "click", "close", "complete", "compositionend", "compositionstart", "compositionupdate", "contextmenu", "copy", "cut", "dblclick", "devicechange", "devicelight", "devicemotion", "deviceorientation", "deviceproximity", "dischargingtimechange", "DOMActivate", "DOMAttributeNameChanged", "DOMAttrModified", "DOMCharacterDataModified", "DOMContentLoaded", "DOMElementNameChanged", "DOMFocusIn", "DOMFocusOut", "DOMNodeInserted", "DOMNodeInsertedIntoDocument", "DOMNodeRemoved", "DOMNodeRemovedFromDocument", "DOMSubtreeModified", "downloading", "drag", "dragend", "dragenter", "dragleave", "dragover", "dragstart", "drop", "durationchange", "emptied", "end", "ended", "endEvent", "error", "focus", "focusin", "focusout", "fullscreenchange", "fullscreenerror", "gamepadconnected", "gamepaddisconnected", "gotpointercapture", "hashchange", "lostpointercapture", "input", "invalid", "keydown", "keypress", "keyup", "languagechange", "levelchange", "load", "loadeddata", "loadedmetadata", "loadend", "loadstart", "mark", "message", "messageerror", "message", "mousedown", "mouseenter", "mouseleave", "mousemove", "mouseout", "mouseover", "mouseup", "nomatch", "notificationclick", "noupdate", "obsolete", "offline", "online", "open", "orientationchange", "pagehide", "pageshow", "paste", "pause", "pointercancel", "pointerdown", "pointerenter", "pointerleave", "pointerlockchange", "pointerlockerror", "pointermove", "pointerout", "pointerover", "pointerup", "play", "playing", "popstate", "progress", "push", "pushsubscriptionchange", "ratechange", "readystatechange", "repeatEvent", "reset", "resize", "resourcetimingbufferfull", "result", "resume", "scroll", "seeked", "seeking", "select", "selectstart", "selectionchange", "show", "slotchange", "soundend", "soundstart", "speechend", "speechstart", "stalled", "start", "storage", "submit", "success", "suspend", "SVGAbort", "SVGError", "SVGLoad", "SVGResize", "SVGScroll", "SVGUnload", "SVGZoom", "timeout", "timeupdate", "touchcancel", "touchend", "touchmove", "touchstart", "transitionend", "unload", "updateready", "upgradeneeded", "userproximity", "voiceschanged", "versionchange", "visibilitychange", "volumechange", "waiting", "wheel"];
@@ -45,12 +45,14 @@ export type CreateElementFunction<K extends (keyof HTMLElementTagNameMap | keyof
 function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNameMap)>(
     type : K | CreateElementFunction<K>,
     properties : Object<{
-        [attributeName in attributeNames[number]]?: String | string
+        [attributeName in attributeNames[number]]?: String<any> | string
     } & {
         [eventListenerName in eventListenerNames[number]]?: Function<EventListener> | EventListener
     } & ((typeof type) extends OriginalFunction ? {
         [name : string] : any
-    } : {})> = new Object<any>({}),
+    } : {}) & {
+        style: Object<{[K in CSSProp]: String<any>}>
+    }> = new Object<any>({}),
     childNodes : Array<Node> = new Array([])) :
         K extends keyof ElementClasses ?
             ElementClasses[K]
@@ -64,20 +66,20 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
                     never
 {
     const propertiesEntries = Object.Entries(properties);
-    const attributes = <Object<{[attributeName in attributeNames[number]]?: String}>>Object.FromEntries(propertiesEntries.Filter(new Function(([name, value]) => {
+    const attributes = <Object<{[attributeName in attributeNames[number]]?: String<any>}>>Object.FromEntries(propertiesEntries.Filter(new Function(([name, value]) => {
         return !eventListenerNames.includes(name) && !(typeof type === "function" && !attributeNames.includes(name));
-    })).Map(new Function(([name, value]) => {
+    })).Map(new Function(([name, value] : any) => {
         return [name, value instanceof String ? value : new String(value)];
     })));
     const eventListeners = <Object<{[eventListenerName in eventListenerNames[number]]?: Function<EventListener>}>>Object.FromEntries(propertiesEntries.Filter(new Function(([name, value]) => {
         return eventListenerNames.includes(name);
-    })).Map(new Function(([name, value]) => {
+    })).Map(new Function(([name, value] : any) => {
         return [name, value instanceof Function ? value : new Function(value)];
     })));
     const options = Object.FromEntries(propertiesEntries.Filter(new Function(([name, value]) => {
         return !eventListenerNames.includes(name) && (typeof type === "function" && !attributeNames.includes(name));
     })));
-    const style = <Primitive<Object<{[K in CSSProp]: String}>>> properties.Get(new String("style"));
+    const style = <Primitive<Object<{[K in CSSProp]: String<any>}>>> properties.Get(new String("style"));
 
 
     /* Listener... */
@@ -90,12 +92,12 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
         };
         eventListenerListenerRemovers[name] = () => {
             value[C].off("set", listener);
-            result[O].removeEventListener(name.substr(2), value[O].value);
+            result[O].removeEventListener(name.substr(2), value[O]);
             delete eventListenerListenerRemovers[name];
         };
         value[C].on("set", listener);
 
-        result[O].addEventListener(name.substr(2), value[O].value);
+        result[O].addEventListener(name.substr(2), value[O]);
     };
 
     /* --- SETUP and LISTEN --- */
@@ -125,7 +127,7 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
         result.attributes.set(name, value);
     });
     const attributesListeners = {
-        set(name : string, value : String) {
+        set(name : string, value : String<any>) {
             result.attributes.set(name, value);
         },
         unset(name : string) {
@@ -155,21 +157,21 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
     };
 
     //style
-    if(style[O].value) {
-        OriginalObject.entries(style[O].value[O]).forEach(([name, value] : [CSSProp, String]) => {
+    if(style[O]) {
+        OriginalObject.entries(style[O][O]).forEach(([name, value] : [CSSProp, String<any>]) => {
             result.style.set(name, value instanceof String ? value : new String(value));
         });
     }
     const styleValueListeners = {
-        set(name : string, value : String) {
+        set(name : CSSProp, value : String<any>) {
             result.style.set(name, value instanceof String ? value : new String(value));
         },
-        unset(name : string) {
+        unset(name : CSSProp) {
             result.style.unset(name);
         }
     }
-    let stylePrevValue = style[O].value;
-    const styleListener = (value : Object<{[K in CSSProp]: String}>) => {
+    let stylePrevValue = style[O];
+    const styleListener = (value : Object<{[K in CSSProp]: String<any>}>) => {
         if(stylePrevValue) {
             stylePrevValue[C].removeListeners(styleValueListeners);
         }
@@ -178,7 +180,7 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
             value[C].addListeners(styleValueListeners);
         } else {
             if(stylePrevValue) {
-                OriginalObject.keys(stylePrevValue[O]).forEach(name => {
+                OriginalObject.keys(stylePrevValue[O]).forEach((name : CSSProp) => {
                     result.style.unset(name);
                 });
             }

@@ -1,14 +1,14 @@
 import { String } from "changy";
 import { state } from "..";
 
-const changeableLocation = {
-    pathname: new String(state.ssrDocument ? "" : location.pathname)
+const location_ = {
+    pathname: new String(this.window ? location.pathname : undefined)
 };
 
 if(this.window) {
     this.window.addEventListener("popstate", () => {
-        changeableLocation.pathname.set(location.pathname);
+        location_.pathname.set(location.pathname);
     });
 }
 
-export default changeableLocation;
+export default location_;

@@ -1,6 +1,6 @@
 import { String, Object, Function, Array, S } from "changy";
 import Node from "../Node/Node";
-import createElement, { CreateElementFunction, attributeNames, eventListenerNames } from "./createElement";
+import createElement, { CreateElementFunction, attributeNames, eventListenerNames, CSSProp } from "./createElement";
 import OriginalObject from "../Originals/Object";
 import OriginalArray from "../Originals/Array";
 import OriginalFunction from "../Originals/Function";
@@ -13,13 +13,15 @@ import document from "../Document/document";
 export default function createElementJSX<K extends (keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap)>(
     type : CreateElementFunction<K> | K,
     properties_: {
-        [attributeName in attributeNames[number]]?: String
+        [attributeName in attributeNames[number]]?: String<any>
     } & {
         [eventListenerName in eventListenerNames[number]]?: Function<EventListener>
     } & ((typeof type) extends OriginalFunction ? {
         [name : string] : any
-    } : {}),
-    ...childs : (string | String | Node | Array<Node> | Node[])[])
+    } : {}) & {
+        style: Object<{[K in CSSProp]: String<any>}>
+    },
+    ...childs : (string | String<any> | Node | Array<Node> | Node[])[])
 {
     const changeableChilds : Array<Node> = new Array([]).Concat(new Array(childs.map(child => {
         if(typeof child === "string") {
