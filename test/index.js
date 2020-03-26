@@ -6,7 +6,7 @@ const target_div = root.childNodes[0];
 
 const memos = new Array([new String("first Memo")]);
 
-function MemoInput({[O]:{memos}}) {
+function MemoInput({memos}) {
     const textInput = <input type="text"/>;
 
     return (
@@ -18,6 +18,8 @@ function MemoInput({[O]:{memos}}) {
         </div>
     );
 }
+
+//<MemoInput memos={memos}/>
 
 const div = ChangyDom.hydrate(target_div)(
     <div>

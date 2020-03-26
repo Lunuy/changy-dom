@@ -1,4 +1,5 @@
-import createElement from "./Util/createElement";
+import createElement from "./Util/createElement_changeableProps";
+import createElement_changeableProps from "./Util/createElement_changeableProps";
 import DOMString from "./Other/DOMString";
 import Element from "./Node/Element";
 import EventTarget from "./Node/EventTarget";
@@ -27,5 +28,8 @@ export {
 
     document,
     state,
-    hydrate
+    hydrate,
+
+
+    createElement_changeableProps
 }

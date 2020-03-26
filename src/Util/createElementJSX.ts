@@ -1,6 +1,7 @@
 import { String, Object, Function, Array, S } from "changy";
 import Node from "../Node/Node";
-import createElement, { CreateElementFunction, attributeNames, eventListenerNames, CSSProp } from "./createElement";
+import createElement, { CreateElementFunction } from "./createElement";
+import { attributeNames, eventListenerNames, CSSProp } from "./consts";
 import OriginalObject from "../Originals/Object";
 import OriginalArray from "../Originals/Array";
 import OriginalFunction from "../Originals/Function";
@@ -53,5 +54,5 @@ export default function createElementJSX<K extends (keyof HTMLElementTagNameMap 
             ]
         })
     );
-    return createElement(type, new Object(properties), changeableChilds);
+    return createElement(type, properties, changeableChilds);
 }

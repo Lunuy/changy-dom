@@ -9,11 +9,11 @@ import document from "../Document/document";
 import state from "../State/state";
 import { eventListenerNames, attributeNames, CSSProp, ElementClasses, Element, htmlElementTagNames, Properties, elementClasses } from "./consts";
 
-export type CreateElementFunction<K extends (keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap)> = (properties : Properties, childs : Array<Node>) => Element<K>
+export type CreateElementFunction_changeableProps<K extends (keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap)> = (properties : Object<Properties>, childs : Array<Node>) => Element<K>
 // tagName... can't change it.
-function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNameMap)>(
-    type : K | CreateElementFunction<K>,
-    properties : {
+function createElement_changeableProps<K extends keyof (HTMLElementTagNameMap & SVGElementTagNameMap)>(
+    type : K | CreateElementFunction_changeableProps<K>,
+    properties : Object<{
         [attributeName in attributeNames[number]]?: String<any> | string
     } & {
         [eventListenerName in eventListenerNames[number]]?: Function<EventListener> | EventListener
@@ -21,7 +21,7 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
         [name : string] : any
     } : {}) & {
         style?: Object<{[K in CSSProp]: String<any>}>
-    } = <any> {},
+    }> = new Object<any>({}),
     childNodes : Array<Node> = new Array([])) :
         K extends keyof ElementClasses ?
             ElementClasses[K]
@@ -34,21 +34,21 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
                     :
                     never
 {
-    const propertiesEntries = OriginalObject.entries(properties);
-    const attributes = <{[attributeName in attributeNames[number]]?: String<any>}>OriginalObject.fromEntries(propertiesEntries.filter(([name, value]) => {
+    const propertiesEntries = Object.Entries(properties);
+    const attributes = <Object<{[attributeName in attributeNames[number]]?: String<any>}>>Object.FromEntries(propertiesEntries.Filter(new Function(([name, value]) => {
         return !eventListenerNames.includes(name) && !(typeof type === "function" && !attributeNames.includes(name)) && name != "style";
-    }).map(([name, value] : any) => {
+    })).Map(new Function(([name, value] : any) => {
         return [name, value instanceof String ? value : new String(value)];
-    }));
-    const eventListeners = <{[eventListenerName in eventListenerNames[number]]?: Function<EventListener>}>OriginalObject.fromEntries(propertiesEntries.filter(([name, value]) => {
+    })));
+    const eventListeners = <Object<{[eventListenerName in eventListenerNames[number]]?: Function<EventListener>}>>Object.FromEntries(propertiesEntries.Filter(new Function(([name, value]) => {
         return eventListenerNames.includes(name);
-    }).map(([name, value] : any) => {
+    })).Map(new Function(([name, value] : any) => {
         return [name, value instanceof Function ? value : new Function(value)];
-    }));
-    const options = OriginalObject.fromEntries(propertiesEntries.filter(([name, value]) => {
+    })));
+    const options = Object.FromEntries(propertiesEntries.Filter(new Function(([name, value]) => {
         return !eventListenerNames.includes(name) && (typeof type === "function" && !attributeNames.includes(name)) && name != "style";
-    }));
-    const style = properties.style;
+    })));
+    const style = <Primitive<Object<{[K in CSSProp]: String<any>}>>> properties.Get(new String("style"));
 
 
     /* Listener... */
@@ -92,14 +92,30 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
     );
 
     //attributes
-    OriginalObject.entries(attributes).forEach(([name, value]) => {
+    OriginalObject.entries(attributes[O]).forEach(([name, value]) => {
         result.attributes.set(name, value);
     });
+    const attributesListeners = {
+        set(name : string, value : String<any>) {
+            result.attributes.set(name, value);
+        },
+        unset(name : string) {
+            result.attributes.unset(name);
+        }
+    };
 
     //listeners
-    OriginalObject.entries(eventListeners).forEach(([name, value]) => {
+    OriginalObject.entries(eventListeners[O]).forEach(([name, value]) => {
         addEventListenerListener(name, value);
     });
+    const eventListenersListeners = {
+        set(name : string, value : Function<EventListener>) {
+            addEventListenerListener(name, value);
+        },
+        unset(name : string) {
+            eventListenerListenerRemovers[name]();
+        }
+    };
 
     //childs
     if(!state.getHydratingNode) {
@@ -118,23 +134,52 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
             result.style.unset(name);
         }
     }
-    if(style) {
-        OriginalObject.entries(style[O]).forEach(([name, value] : [CSSProp, String<any>]) => {
+    let stylePrevValue = style[O];
+    if(style[O]) {
+        OriginalObject.entries(style[O][O]).forEach(([name, value] : [CSSProp, String<any>]) => {
             result.style.set(name, value instanceof String ? value : new String(value));
         });
-        style[C].addListeners(styleValueListeners);
+        style[O][C].addListeners(styleValueListeners);
     }
+    const styleListener = (value : Object<{[K in CSSProp]: String<any>}>) => {
+        if(stylePrevValue) {
+            stylePrevValue[C].removeListeners(styleValueListeners);
+        }
 
+        if(value) {
+            value[C].addListeners(styleValueListeners);
+        } else {
+            if(stylePrevValue) {
+                OriginalObject.keys(stylePrevValue[O]).forEach((name : CSSProp) => {
+                    result.style.unset(name);
+                });
+            }
+        }
+
+        stylePrevValue = value;
+    };
+
+
+
+
+    attributes[C].addListeners(attributesListeners);
+    eventListeners[C].addListeners(eventListenersListeners);
     childNodes[C].on("splice", childNodesListener);
+    style[C].on("set", styleListener);
 
     result[S] = () => {
-        OriginalObject.values(eventListenerListenerRemovers).forEach(remove => remove());
-        if(style) style[C].removeListeners(styleValueListeners);
+        propertiesEntries[S]();
+        style[S]();
 
+        OriginalObject.values(eventListenerListenerRemovers).forEach(remove => remove());
+        if(stylePrevValue) stylePrevValue[C].removeListeners(styleValueListeners);
+
+        attributes[C].removeListeners(attributesListeners);
+        eventListeners[C].removeListeners(eventListenersListeners);
         childNodes[C].off("splice", childNodesListener);
     };
 
     return <any>result;
 }
 
-export default createElement;
+export default createElement_changeableProps;

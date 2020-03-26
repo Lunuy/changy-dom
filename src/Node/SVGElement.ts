@@ -35,7 +35,7 @@ export default class SVGElement<K extends keyof SVGElementTagNameMap> extends El
                     delete propListenerRemovers[key];
                 };
 
-                self[O].style.setProperty(key, value[O].value);
+                self[O].style.setProperty(key, value[O]);
             },
             unset(key : CSSProp, value : String<any>) {
                 propListenerRemovers[key]();

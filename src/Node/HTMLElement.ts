@@ -45,7 +45,7 @@ export default class HTMLElement<K extends keyof HTMLElementTagNameMap> extends 
                     delete propListenerRemovers[key];
                 };
 
-                self[O].style.setProperty(key, value[O].value);
+                self[O].style.setProperty(key, value[O]);
             },
             unset(key : CSSProp, value : String<any>) {
                 propListenerRemovers[key]();

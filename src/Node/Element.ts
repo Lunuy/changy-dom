@@ -40,7 +40,7 @@ export default class Element extends Node {
                     delete attributeListenerRemovers[key];
                 };
 
-                self[O].setAttribute(key, value[O].value);
+                self[O].setAttribute(key, value[O]);
             },
             unset(key : string, value : String<any>) {
                 attributeListenerRemovers[key]();
