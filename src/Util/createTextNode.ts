@@ -4,7 +4,7 @@ import OriginalText from "../Originals/Text";
 import document from "../Document/document";
 
 export default function createTextNode(text : String<any>) {
-    const result = new Text(document.createTextNode(text[O].value));
+    const result = new Text(document.createTextNode(text[O]));
 
     const textListener = (text : string) => {
         result.setData(text);
