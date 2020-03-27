@@ -1,6 +1,6 @@
 {
   "name": "changy-dom",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Make dom changeable.",
   "main": "./dist/index.js",
   "scripts": {
@@ -38,6 +38,6 @@
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
-    "changy": "^7.1.0"
+    "changy": "^8.0.0"
   }
 }
