@@ -1,4 +1,9 @@
 import ChangyDom from "../../dist/index";
 
 
-const test = <div id="jam"></div>;
+const test = <div id="jam">
+    test
+    {
+        "TEST~"
+    }
+</div>;

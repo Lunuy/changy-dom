@@ -10,12 +10,15 @@ import OriginalText from "../Originals/Text";
 import createTextNode from "./createTextNode";
 import HTMLElement from "../Node/HTMLElement";
 import document from "../Document/document";
-import ChangyDom_Element from "../Node/Element";
+import SVGElement from "../Node/SVGElement";
 
 // Type
 declare global {
     namespace JSX {
-        type Element = ChangyDom_Element;
+        type Element = HTMLElement<any> | SVGElement<any>;
+        interface ElementChildrenAttribute {
+            
+        }
         type IntrinsicElements = {
             [k in (keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap)]: {
                 [attributeName in (attributeNames[number])]?: string | String<any>
