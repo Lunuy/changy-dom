@@ -20,7 +20,7 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
     } & ((typeof type) extends OriginalFunction ? {
         [name : string] : any
     } : {}) & {
-        style?: Object<{[K in CSSProp]: String<any>}>
+        style?: Object<{[K in CSSProp]?: String<any> | string}>
     } = <any> {},
     childNodes : Array<Node> = new Array([])) :
         K extends keyof ElementClasses ?
@@ -111,7 +111,7 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
 
     //style
     const styleValueListeners = {
-        set(name : CSSProp, value : String<any>) {
+        set(name : CSSProp, value : String<any> | string) {
             result.style.set(name, value instanceof String ? value : new String(value));
         },
         unset(name : CSSProp) {

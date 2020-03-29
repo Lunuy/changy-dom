@@ -10,6 +10,26 @@ import OriginalText from "../Originals/Text";
 import createTextNode from "./createTextNode";
 import HTMLElement from "../Node/HTMLElement";
 import document from "../Document/document";
+import ChangyDom_Element from "../Node/Element";
+
+// Type
+declare global {
+    namespace JSX {
+        type Element = ChangyDom_Element;
+        type IntrinsicElements = {
+            [k in (keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap)]: {
+                [attributeName in (attributeNames[number])]?: string | String<any>
+            } & {
+                style?: Object<{[K in CSSProp]?: String<any> | string}> | {[K in CSSProp]?: String<any> | string}
+            } & {
+                [eventListenerName in (eventListenerNames[number])]?: EventListener
+            }
+        }
+    }
+}
+
+
+
 
 export default function createElementJSX<K extends (keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap)>(
     type : CreateElementFunction<K> | K,
@@ -20,7 +40,7 @@ export default function createElementJSX<K extends (keyof HTMLElementTagNameMap 
     } & ((typeof type) extends OriginalFunction ? {
         [name : string] : any
     } : {}) & {
-        style: Object<{[K in CSSProp]: String<any>}>
+        style?: Object<{[K in CSSProp]?: String<any> | string}> | {[K in CSSProp]?: String<any> | string}
     },
     ...childs : (string | String<any> | Node | Array<Node> | Node[])[])
 {

@@ -15,6 +15,7 @@ function MemoInput({memos}) {
             <input type="button" value="EMIT!" onclick={() => {
                 memos.push(new String(textInput[O].value))
             }}/>
+            
         </div>
     );
 }
@@ -38,3 +39,5 @@ const div = ChangyDom.hydrate(target_div)(
 );
 
 //root.appendChild(div[O]);
+
+export {};
