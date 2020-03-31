@@ -23,7 +23,9 @@ declare global {
             [k in (keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap)]: {
                 [attributeName in (attributeNames[number])]?: string | String<any>
             } & {
-                style?: Object<{[K in CSSProp]?: String<any> | string}> | {[K in CSSProp]?: String<any> | string}
+                style?: Object<{[K in CSSProp]?: String<any> | string} & {[varName : string]: String<any> | string}>
+                |
+                ({[K in CSSProp]?: String<any> | string} & {[varName : string]: String<any> | string})
             } & {
                 [eventListenerName in (eventListenerNames[number])]?: EventListener
             }
