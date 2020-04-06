@@ -1,4 +1,4 @@
-import { String, Object, Function, Array, S } from "changy";
+import { String, Object, Function, Array, S, O } from "changy";
 import Node from "../Node/Node";
 import createElement, { CreateElementFunction } from "./createElement";
 import { attributeNames, eventListenerNames, CSSProp } from "./consts";
@@ -91,6 +91,7 @@ export default function createElementJSX<K extends (keyof HTMLElementTagNameMap 
             ]);
         }
     })));
+    console.log((<any>changeableChilds)[O]);
     const properties : any = OriginalObject.fromEntries(
         OriginalObject.entries(properties_ ? properties_ : <any>{}).map(([propertyName, value]) => {
             return [

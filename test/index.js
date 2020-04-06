@@ -1,6 +1,7 @@
 const { Number, O, Object, String, Array, Function } = require("changy");
 const ChangyDom = require("../dist/index");
 
+const root_strtest = document.getElementById("root_strtest");
 const root = document.getElementById("root");
 const target_div = root.childNodes[0];
 
@@ -22,6 +23,16 @@ function MemoInput({memos}) {
 
 //<MemoInput memos={memos}/>
 
+root_strtest.appendChild(
+    (
+        <span>
+            {
+                ["Memo","memO"]
+            }
+        </span>
+    )[O]
+);
+
 const div = ChangyDom.hydrate(target_div)(
     <div>
         <MemoInput memos={memos}/>
@@ -39,5 +50,3 @@ const div = ChangyDom.hydrate(target_div)(
 );
 
 //root.appendChild(div[O]);
-
-export {};
