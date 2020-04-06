@@ -33,9 +33,6 @@ declare global {
     }
 }
 
-
-
-
 export default function createElementJSX<K extends (keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap)>(
     type : CreateElementFunction<K> | K,
     properties_: {
@@ -55,11 +52,43 @@ export default function createElementJSX<K extends (keyof HTMLElementTagNameMap 
         } else if(child instanceof String) {
             return new Array([createTextNode(child)]);
         } else if(child instanceof Array) {
-            return child;
+            return child.Map(new Function(child => 
+                (typeof child === "string")
+                ?
+                    new Text(document.createTextNode(child))
+                :
+                    (child instanceof String)
+                    ?
+                        createTextNode(child)
+                    :
+                        child
+            ));
         } else if(child instanceof OriginalArray) {
-            return new Array(child);
+            return new Array(
+                child.map(child => 
+                    (typeof child === "string")
+                    ?
+                        new Text(document.createTextNode(child))
+                    :
+                        (child instanceof String)
+                        ?
+                            createTextNode(child)
+                        :
+                            child
+                )
+            );
         } else {
-            return new Array([child]);
+            return new Array([
+                (typeof child === "string")
+                ?
+                    new Text(document.createTextNode(child))
+                :
+                    (child instanceof String)
+                    ?
+                        createTextNode(child)
+                    :
+                        child
+            ]);
         }
     })));
     const properties : any = OriginalObject.fromEntries(
@@ -79,5 +108,9 @@ export default function createElementJSX<K extends (keyof HTMLElementTagNameMap 
             ]
         })
     );
-    return createElement(type, properties, changeableChilds);
+    const result = createElement(type, properties, changeableChilds);
+    
+    result[S] = () => {changeableChilds[S]();properties[S]();};
+
+    return result;
 }
