@@ -41,7 +41,8 @@ const div = ChangyDom.hydrate(target_div)(
                 new Function((memo) => {
                     return <input type="text" style={{
                         display: "block",
-                        border: "none"
+                        border: "none",
+                        backgroundColor: "orange"
                     }} value={memo}/>
                 })
             )

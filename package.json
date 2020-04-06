@@ -1,6 +1,6 @@
 {
   "name": "changy-dom",
-  "version": "3.0.5",
+  "version": "3.0.7",
   "description": "Make dom changeable.",
   "main": "./dist/index.js",
   "scripts": {
