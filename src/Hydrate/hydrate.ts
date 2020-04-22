@@ -9,7 +9,6 @@ function flatNodeTree(node : OriginalNode) : OriginalNode[] {
 
 export default function hydrate(targetNode : OriginalNode) {
     const nodes = flatNodeTree(targetNode);
-    console.log(nodes);
     state.getHydratingNode = () => {
         return nodes.splice(0, 1)[0];
     };

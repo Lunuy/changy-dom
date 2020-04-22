@@ -91,7 +91,6 @@ export default function createElementJSX<K extends (keyof HTMLElementTagNameMap 
             ]);
         }
     })));
-    console.log((<any>changeableChilds)[O]);
     const properties : any = OriginalObject.fromEntries(
         OriginalObject.entries(properties_ ? properties_ : <any>{}).map(([propertyName, value]) => {
             return [
