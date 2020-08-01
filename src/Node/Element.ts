@@ -1,5 +1,5 @@
 import Node, { NodeChangeEventEmitter } from "./Node";
-import { O, C, Object, String, S } from "changy";
+import { O, C, Object, String, S, IN } from "changy";
 import OriginalElement from "../Originals/Element";
 import OriginalObject from "../Originals/Object";
 import OriginalArray from "../Originals/Array";
@@ -22,7 +22,7 @@ export default class Element extends Node {
     }
 
     attributes = (() => {
-        const result = new Object(<{[attributeName : string]: String<any>}>OriginalObject.fromEntries(this[O].getAttributeNames().map(attributeName => [attributeName, new String(this[O].getAttribute(attributeName))])));
+        const result = new Object(<{[attributeName : string]: String<any>}>OriginalObject.fromEntries(this[O].getAttributeNames().map(attributeName => [attributeName, new String(this[O].getAttribute(attributeName))])))[IN]();
 
         const attributeListenerRemovers : {[attributeName : string]: () => void} = {};
 
@@ -49,10 +49,7 @@ export default class Element extends Node {
         };
 
         result[C].addListeners(resultListeners);
-
-        this[S] = () => {
-            result[S]();
-        };
+        result[C].connectInput(this[C], {});
 
         return result;
     })();

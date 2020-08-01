@@ -6,7 +6,9 @@
       "target": "ES2019",
       "declaration": true,
       "rootDir": "./src/",
-      "esModuleInterop": true
+      "esModuleInterop": true,
+      "jsx": "react",
+      "jsxFactory": "ChangyDom.createElementJSX",
     },
     "include": [
       "./src/*",

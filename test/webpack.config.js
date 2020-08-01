@@ -27,7 +27,9 @@ module.exports = {
   },
   output: {
     filename: 'index.js',
-    path: path.resolve(__dirname, 'dist'),
   },
-  externals: []
+  externals: [],
+  devServer: {
+    contentBase: path.resolve(__dirname)
+  }
 };

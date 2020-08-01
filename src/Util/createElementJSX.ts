@@ -1,4 +1,4 @@
-import { String, Object, Function, Array, S, O } from "changy";
+import { String, Object, Function, Array, S, O, Primitive } from "changy";
 import Node from "../Node/Node";
 import createElement, { CreateElementFunction } from "./createElement";
 import { attributeNames, eventListenerNames, CSSProp } from "./consts";
@@ -44,51 +44,33 @@ export default function createElementJSX<K extends (keyof HTMLElementTagNameMap 
     } : {}) & {
         style?: Object<{[K in CSSProp]?: String<any> | string}> | {[K in CSSProp]?: String<any> | string}
     },
-    ...childs : (string | String<any> | Node | Array<Node> | Node[])[])
+    ...childs : (string | String<any> | Node | Array<Node | string | String<any>> | (Node | string | String<any>)[] | Primitive<Node>)[])
 {
-    const changeableChilds : Array<Node> = new Array([]).Concat(new Array(childs.map(child => {
-        if(typeof child === "string") {
-            return new Array([new Text(document.createTextNode(child))]);
-        } else if(child instanceof String) {
-            return new Array([createTextNode(child)]);
-        } else if(child instanceof Array) {
-            return child.Map(new Function(child => 
-                (typeof child === "string")
+
+    function mapChild(child : String<any> | Node | string) {
+        return (
+            (child instanceof Node)
+            ?
+                child
+            :
+                (child instanceof String)
                 ?
-                    new Text(document.createTextNode(child))
+                    createTextNode(child)
                 :
-                    (child instanceof String)
-                    ?
-                        createTextNode(child)
-                    :
-                        child
-            ));
+                    new Text(document.createTextNode(child))
+        );
+    }
+    const changeableChilds : Array<Node> = new Array([]).Concat(new Array(childs.map(child => {
+        if(child instanceof Array) {
+            return child.Map(new Function(mapChild));
         } else if(child instanceof OriginalArray) {
             return new Array(
-                child.map(child => 
-                    (typeof child === "string")
-                    ?
-                        new Text(document.createTextNode(child))
-                    :
-                        (child instanceof String)
-                        ?
-                            createTextNode(child)
-                        :
-                            child
-                )
+                child.map(mapChild)
             );
+        } else if(!(child instanceof String) && child instanceof Primitive) {
+            return Array.FromChangeable(new Array([child]));
         } else {
-            return new Array([
-                (typeof child === "string")
-                ?
-                    new Text(document.createTextNode(child))
-                :
-                    (child instanceof String)
-                    ?
-                        createTextNode(child)
-                    :
-                        child
-            ]);
+            return new Array([mapChild(child)]);
         }
     })));
     const properties : any = OriginalObject.fromEntries(
@@ -109,8 +91,6 @@ export default function createElementJSX<K extends (keyof HTMLElementTagNameMap 
         })
     );
     const result = createElement(type, properties, changeableChilds);
-    
-    result[S] = () => {changeableChilds[S]();properties[S]();};
 
     return result;
 }

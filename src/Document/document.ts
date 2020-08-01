@@ -26,7 +26,9 @@ function createElementSVG<K extends keyof SVGElementTagNameMap>(tagName : K) {
 
 function createTextNode(text : string) {
     if(state.getHydratingNode) {
-        return <Text>state.getHydratingNode();
+        const textNode = <Text>state.getHydratingNode();
+        textNode.data = text;
+        return textNode;
     } else {
         if(state.ssrDocument) {
             return state.ssrDocument.createTextNode(text);

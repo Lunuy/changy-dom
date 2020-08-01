@@ -7,14 +7,10 @@ export default function createTextNode(text : String<any>) {
     const result = new Text(document.createTextNode(text[O]));
 
     const textListener = (text : string) => {
-        result.setData(text);
+        result.data.set(text);
     };
 
-    text[C].on("set", textListener);
-
-    result[S] = () => {
-        text[C].off("set", textListener);
-    };
+    text[C].on("set", textListener, result);
 
     return result;
 }

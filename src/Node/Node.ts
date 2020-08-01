@@ -36,10 +36,7 @@ export default class Node extends EventTarget {
         };
 
         result[C].on("splice", resultListener);
-
-        this[S] = () => {
-            result[S]();
-        };
+        result[C].connectInput(this[C], {});
         
         return result;
     })();

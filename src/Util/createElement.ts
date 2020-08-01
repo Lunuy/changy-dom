@@ -7,7 +7,11 @@ import OriginalFunction from "../Originals/Function";
 import OriginalString from "../Originals/String";
 import document from "../Document/document";
 import state from "../State/state";
-import { eventListenerNames, attributeNames, CSSProp, ElementClasses, Element, htmlElementTagNames, Properties, elementClasses } from "./consts";
+import { eventListenerNames, attributeNames, CSSProp, Element, htmlElementTagNames, Properties, elementClasses, ElementInstances } from "./consts";
+
+function capitalizeFirstLetter(string : string) {
+    return string[0].toUpperCase() + string.slice(1);
+}
 
 export type CreateElementFunction<K extends (keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap)> = (properties : Properties, childs : Array<Node>) => Element<K>
 // tagName... can't change it.
@@ -23,8 +27,8 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
         style?: Object<{[K in CSSProp]?: String<any> | string}>
     } = <any> {},
     childNodes : Array<Node> = new Array([])) :
-        K extends keyof ElementClasses ?
-            ElementClasses[K]
+        K extends keyof ElementInstances ?
+            ElementInstances[K]
             :
             K extends (keyof HTMLElementTagNameMap)?
                 HTMLElement<K>
@@ -64,7 +68,7 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
             result[O].removeEventListener(name.substr(2), value[O]);
             delete eventListenerListenerRemovers[name];
         };
-        value[C].on("set", listener);
+        value[C].on("set", listener, result);
 
         result[O].addEventListener(name.substr(2), value[O]);
     };
@@ -104,9 +108,12 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
     //childs
     if(!state.getHydratingNode) {
         result.childNodes.push(...(<ChildNode[]>(childNodes[O].map(childNode => childNode[O]))));
+        childNodes[O].forEach(childNode => result[C].connectInput(childNode[C], {}));
     }
     const childNodesListener = (start : number, deleted : Node[], inserted : Node[]) => {
         result.childNodes.splice(start, deleted.length, ...(<ChildNode[]>inserted.map(insertedNode => insertedNode[O])));
+        deleted.forEach(deletedOne => result[C].disconnectInput(deletedOne[C])); // 더이상 하위 요소가 아님
+        inserted.forEach(insertedOne => result[C].connectInput(insertedOne[C], {})); // 하위 요소 추가
     };
 
     //style
@@ -122,17 +129,10 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
         OriginalObject.entries(style[O]).forEach(([name, value] : [CSSProp, String<any>]) => {
             result.style.set(name, value instanceof String ? value : new String(value));
         });
-        style[C].addListeners(styleValueListeners);
+        style[C].addListeners(styleValueListeners, result.style);
     }
 
-    childNodes[C].on("splice", childNodesListener);
-
-    result[S] = () => {
-        OriginalObject.values(eventListenerListenerRemovers).forEach(remove => remove());
-        if(style) style[C].removeListeners(styleValueListeners);
-
-        childNodes[C].off("splice", childNodesListener);
-    };
+    childNodes[C].on("splice", childNodesListener, result.childNodes);
 
     return <any>result;
 }

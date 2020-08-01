@@ -1,12 +1,11 @@
 import { String } from "changy";
-import { state } from "..";
 
 const location_ = {
-    pathname: new String(this.window ? location.pathname : undefined)
+    pathname: new String(globalThis.window ? window.location.pathname : undefined)
 };
 
-if(this.window) {
-    this.window.addEventListener("popstate", () => {
+if(globalThis.window) {
+    window.addEventListener("popstate", () => {
         location_.pathname.set(location.pathname);
     });
 }

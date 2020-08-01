@@ -6,7 +6,7 @@ import OriginalObject from "../Originals/Object";
 import SVGElement from "./SVGElement";
 
 type Remove<A, B> = A extends B ? never : A;
-type CSSProp = Remove<keyof CSSStyleDeclaration, "length" | "parentRule" | number>;
+type CSSProp = Remove<keyof CSSStyleDeclaration, "length" | "parentRule" | "setProperty" | "removeProperty" | "item" | "getPropertyValue" | "getPropertyPriority" | number>;
 
 
 function setProperty(style : CSSStyleDeclaration, name : CSSProp | string, value : string) {
@@ -55,10 +55,7 @@ export function createStyle(element : HTMLElement<any> | SVGElement<any>) {
     };
 
     result[C].addListeners(resultListeners);
-
-    element[S] = () => {
-        result[S]();
-    };
+    result[C].connectInput(element[C], {});
 
     return result;
 }

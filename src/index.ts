@@ -1,5 +1,4 @@
-import createElement from "./Util/createElement_changeableProps";
-import createElement_changeableProps from "./Util/createElement_changeableProps";
+import createElement from "./Util/createElement";
 import DOMString from "./Other/DOMString";
 import Element from "./Node/Element";
 import EventTarget from "./Node/EventTarget";
@@ -11,8 +10,9 @@ import document from "./Document/document";
 import createTextNode from "./Util/createTextNode";
 import state from "./State/state";
 import hydrate from "./Hydrate/hydrate";
-
-
+import history from "./Location/history";
+import location from "./Location/location";
+import A from "./Node/New/A";
 
 
 export {
@@ -30,9 +30,12 @@ export {
     createTextNode,
 
     document,
+    history,
+    location,
+
     state,
     hydrate,
 
-
-    createElement_changeableProps
+    //New elements
+    A
 }
