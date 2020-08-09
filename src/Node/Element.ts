@@ -3,7 +3,6 @@ import { O, C, Object, String, S, IN, OUT } from "changy";
 import OriginalElement from "../Originals/Element";
 import OriginalObject from "../Originals/Object";
 import OriginalArray from "../Originals/Array";
-import { directAttributes } from "./consts";
 
 export interface ElementChangeEventEmitter extends NodeChangeEventEmitter {
     //on(event : "setAttribute", listener : (name : string, value : string) => void) : this
@@ -33,10 +32,7 @@ export default class Element extends Node {
                 if(attributeListenerRemovers[key]) attributeListenerRemovers[key]();
 
                 const listener = (value : string) => {
-                    if(directAttributes.includes(key))
-                        (<any>self[O])[key] = value;
-                    else
-                        self[O].setAttribute(key, value);
+                    self[O].setAttribute(key, value);
                 };
                 value[C].on("set", listener);
                 attributeListenerRemovers[key] = () => {
