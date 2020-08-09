@@ -16,7 +16,8 @@ function MemoInput({memos}) {
         <div>
             {textInput}
             <input type="button" value="EMIT!" onclick={() => {
-                memos.push(new String(textInput[O].value))
+                memos.push(new String(textInput[O].value));
+                value.set("");
             }}/>
             {
                 value
