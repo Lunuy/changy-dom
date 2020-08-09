@@ -13,6 +13,7 @@ import hydrate from "./Hydrate/hydrate";
 import history from "./Location/history";
 import location from "./Location/location";
 import A from "./Node/New/A";
+import Fragment from "./Other/Fragment";
 
 
 export {
@@ -36,6 +37,9 @@ export {
     state,
     hydrate,
 
-    //New elements
-    A
+    // New elements
+    A,
+
+    // Other elements
+    Fragment
 }

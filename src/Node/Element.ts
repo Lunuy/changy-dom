@@ -1,5 +1,5 @@
 import Node, { NodeChangeEventEmitter } from "./Node";
-import { O, C, Object, String, S, IN } from "changy";
+import { O, C, Object, String, S, IN, OUT } from "changy";
 import OriginalElement from "../Originals/Element";
 import OriginalObject from "../Originals/Object";
 import OriginalArray from "../Originals/Array";
@@ -48,9 +48,7 @@ export default class Element extends Node {
             }
         };
 
-        result[C].addListeners(resultListeners);
-        result[C].connectInput(this[C], {});
-
-        return result;
+        result[C].addListeners(resultListeners, this);
+        return result[OUT]();
     })();
 }

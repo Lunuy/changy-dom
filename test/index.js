@@ -1,16 +1,16 @@
-const { Number, O, Object, String, Array, Function, iF, cF, Boolean } = require("changy");
+const { Number, O, C, Object, String, Array, Function, iF, cF, Boolean, S, IN } = require("changy");
 const ChangyDom = require("../dist/index");
-const { A, location } = require("../dist/index");
+const { A, Fragment, location } = require("../dist/index");
 
 const root_strtest = document.getElementById("root_strtest");
 //const root = document.getElementById("root");
 //const target_div = root.childNodes[0];
 
-const memos = new Array([new String("first Memo")]);
+const memos = new Array([new String("first Memo")])[IN]();
 
 function MemoInput({memos}) {
     const textInput = <input type="text"/>;
-    const value = textInput.attributes.Get(new String("value"))[O];
+    const value = textInput.value;
 
     return (
         <div>
@@ -30,6 +30,30 @@ function MemoInput({memos}) {
     );
 }
 
+function MemoList({memos}) {
+    const result = (
+        <div>
+            {
+                memos.Map(
+                    new Function((memo) => {
+                        return (
+                            <div>
+                                <input type="text" style={{
+                                    border: "none",
+                                    backgroundColor: "orange"
+                                }} value={memo}/>
+                                <input type="button" value="X" onclick={_ => memos.splice(memos[O].indexOf(memo), 1)}/>
+                            </div>
+                        );
+                    })
+                )
+            }
+        </div>
+    );
+    //setInterval(() => console.log(result[C]), 1000);
+    return result;
+}
+
 //<MemoInput memos={memos}/>
 
 root_strtest.appendChild(
@@ -42,20 +66,15 @@ root_strtest.appendChild(
     )[O]
 );
 
-const div = document.body.appendChild((//ChangyDom.hydrate(target_div)(
+const result = (//ChangyDom.hydrate(target_div)(
     <div>
         <MemoInput memos={memos}/>
-        {
-            memos.Map(
-                new Function((memo) => {
-                    return <input type="text" style={{
-                        display: "block",
-                        border: "none",
-                        backgroundColor: "orange"
-                    }} value={memo}/>
-                })
-            )
-        }
+        <MemoList memos={memos}/>
+        <ChangyDom.Fragment>
+            <div>A</div>
+            <div>B</div>
+            <div>C</div>
+        </ChangyDom.Fragment>
         <A to="/0_호히히">HHH</A><br/>
         <A to="/1_후히히">HH</A><br/>
         <A to="/2_히히히">H</A><br/>
@@ -68,6 +87,11 @@ const div = document.body.appendChild((//ChangyDom.hydrate(target_div)(
             ]).Get(cF(pathname => parseInt(pathname[1] ?? 3), Number)(location.pathname))
         }
     </div>
-)[O]);
+);
+const div = document.body.appendChild(result[O]);
+
+//setInterval(() => console.log(memos[C]), 1000);
+
+document.body.appendChild((<input type="button" value="STOP!!" onclick={_ => result[S]()}/>)[O]);
 
 //root.appendChild(div[O]);

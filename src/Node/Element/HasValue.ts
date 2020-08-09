@@ -4,19 +4,17 @@ import OriginalHTMLElement from "../../Originals/HTMLElement";
 import { String, O, S, IN } from "changy";
 
 class HasValue<K extends ("input" | "textarea")> extends HTMLElement<K> {
+    value = (() => {
+        const result = new String((<any>this[O]).value ?? "")[IN]();
+
+        (<any>this[O]).addEventListener("input", () => {
+            result.set((<any>this[O]).value);
+        });
+
+        return result;
+    })();
     constructor(element : OriginalHTMLElement) {
         super(element);
-
-        // value change
-        this.attributes.set("value", (() => {
-            const result = new String((<any>element).value ?? "")[IN]();
-
-            (<any>element).addEventListener("input", () => {
-                result.set((<any>element).value);
-            });
-
-            return result;
-        })());
     }
 }
 

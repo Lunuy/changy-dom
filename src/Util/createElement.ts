@@ -1,22 +1,23 @@
 import HTMLElement from "../Node/HTMLElement";
 import SVGElement from "../Node/SVGElement";
-import { Object, String, Function, Array, O, C, S, Changeable, Primitive } from "changy";
+import { Object, String, Function, Array, O, C, S, Changeable, Primitive, IN, OUT } from "changy";
 import OriginalObject from "../Originals/Object";
 import Node from "../Node/Node";
 import OriginalFunction from "../Originals/Function";
 import OriginalString from "../Originals/String";
 import document from "../Document/document";
 import state from "../State/state";
-import { eventListenerNames, attributeNames, CSSProp, Element, htmlElementTagNames, Properties, elementClasses, ElementInstances } from "./consts";
+import { eventListenerNames, attributeNames, CSSProp, Element, htmlElementTagNames, Properties, elementClasses, ElementInstances, ElementClasses } from "./consts";
 
 function capitalizeFirstLetter(string : string) {
     return string[0].toUpperCase() + string.slice(1);
 }
 
 export type CreateElementFunction<K extends (keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap)> = (properties : Properties, childs : Array<Node>) => Element<K>
-// tagName... can't change it.
+export type CreateNodeArrayFunction = (properties : Properties, childs : Array<Node>) => Array<Node>;
+
 function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNameMap)>(
-    type : K | CreateElementFunction<K>,
+    type : K | CreateElementFunction<K> | CreateNodeArrayFunction,
     properties : {
         [attributeName in attributeNames[number]]?: String<any> | string
     } & {
@@ -27,6 +28,9 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
         style?: Object<{[K in CSSProp]?: String<any> | string}>
     } = <any> {},
     childNodes : Array<Node> = new Array([])) :
+        K extends CreateNodeArrayFunction ?
+            Array<Node>
+        :
         K extends keyof ElementInstances ?
             ElementInstances[K]
             :
@@ -75,15 +79,12 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
 
     /* --- SETUP and LISTEN --- */
 
-    const result = <Element<any>> (
-                    typeof type === "function"
-                    ?
+    const result = <any>(
+                    typeof type === "function" ?
                         type(options, childNodes)
                     :
-                        htmlElementTagNames.includes(type)
-                        ?
-                            (<any>elementClasses)[type]
-                            ?
+                        htmlElementTagNames.includes(type) ?
+                            (<any>elementClasses)[type] ?
                                 new (<any>elementClasses)[type](document.createElement(<any>type))
                             :
                                 new HTMLElement(document.createElement(<any>type))
@@ -94,6 +95,7 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
                             :
                             new SVGElement(document.createElementSVG(<any>type))
     );
+    if(result instanceof Array) return <any>result;
 
     //attributes
     OriginalObject.entries(attributes).forEach(([name, value]) => {
@@ -134,7 +136,7 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
 
     childNodes[C].on("splice", childNodesListener, result.childNodes);
 
-    return <any>result;
+    return result;
 }
 
 export default createElement;

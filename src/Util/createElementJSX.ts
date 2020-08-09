@@ -1,6 +1,6 @@
 import { String, Object, Function, Array, S, O, Primitive } from "changy";
 import Node from "../Node/Node";
-import createElement, { CreateElementFunction } from "./createElement";
+import createElement, { CreateElementFunction, CreateNodeArrayFunction } from "./createElement";
 import { attributeNames, eventListenerNames, CSSProp } from "./consts";
 import OriginalObject from "../Originals/Object";
 import OriginalArray from "../Originals/Array";
@@ -15,7 +15,7 @@ import SVGElement from "../Node/SVGElement";
 // Type
 declare global {
     namespace JSX {
-        type Element = HTMLElement<any> | SVGElement<any>;
+        type Element = HTMLElement<any> | SVGElement<any> | Node[] | Array<Node>;
         interface ElementChildrenAttribute {
             
         }
@@ -34,7 +34,7 @@ declare global {
 }
 
 export default function createElementJSX<K extends (keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap)>(
-    type : CreateElementFunction<K> | K,
+    type : CreateElementFunction<K> | K | CreateNodeArrayFunction,
     properties_: {
         [attributeName in attributeNames[number]]?: String<any>
     } & {

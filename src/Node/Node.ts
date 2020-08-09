@@ -1,6 +1,6 @@
 import EventTarget, { EventTargetChangeEventEmitter } from "./EventTarget";
 import OriginalNode from "../Originals/Node";
-import { Array, O, C, S } from "changy";
+import { Array, O, C, S, OUT } from "changy";
 import OriginalArray from "../Originals/Array";
 
 export interface NodeChangeEventEmitter extends EventTargetChangeEventEmitter {
@@ -35,9 +35,7 @@ export default class Node extends EventTarget {
             });
         };
 
-        result[C].on("splice", resultListener);
-        result[C].connectInput(this[C], {});
-        
+        result[C].on("splice", resultListener, this);
         return result;
     })();
 }

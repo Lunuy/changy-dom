@@ -1,4 +1,4 @@
-import { Changeable, O, Object, C, String, S } from "changy";
+import { Changeable, O, Object, C, String, S, OUT } from "changy";
 import Node from "./Node";
 import Element, { ElementChangeEventEmitter } from "./Element";
 import OriginalHTMLElement from "../Originals/HTMLElement";
@@ -54,8 +54,7 @@ export function createStyle(element : HTMLElement<any> | SVGElement<any>) {
         }
     };
 
-    result[C].addListeners(resultListeners);
-    result[C].connectInput(element[C], {});
+    result[C].addListeners(resultListeners, element);
 
     return result;
 }
