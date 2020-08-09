@@ -53,6 +53,6 @@ export default class Element extends Node {
         };
 
         result[C].addListeners(resultListeners, this);
-        return result[OUT]();
+        return result;
     })();
 }
