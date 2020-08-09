@@ -15,7 +15,7 @@ import SVGElement from "../Node/SVGElement";
 // Type
 declare global {
     namespace JSX {
-        type Element = HTMLElement<any> | SVGElement<any> | Node[] | Array<Node>;
+        type Element = HTMLElement<any> | SVGElement<any>;
         interface ElementChildrenAttribute {
             
         }

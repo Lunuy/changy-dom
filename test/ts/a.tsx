@@ -10,6 +10,9 @@ const div = (
     </div>
 );
 
+// const fragment = <ChangyDom.Fragment>SIBAL</ChangyDom.Fragment>
+// Fragment type not working
+
 const textarea = (
     <textarea ></textarea>
 );
