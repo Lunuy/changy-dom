@@ -14,6 +14,7 @@ import history from "./Location/history";
 import location from "./Location/location";
 import A from "./Node/New/A";
 import Fragment from "./Other/Fragment";
+import route from "./Util/route";
 
 
 export {
@@ -33,6 +34,7 @@ export {
     document,
     history,
     location,
+    route,
 
     state,
     hydrate,

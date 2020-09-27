@@ -9,6 +9,7 @@
       "esModuleInterop": true,
       "jsx": "react",
       "jsxFactory": "ChangyDom.createElementJSX",
+      "allowSyntheticDefaultImports": true
     },
     "include": [
       "./src/*",
