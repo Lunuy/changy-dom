@@ -99,7 +99,7 @@ export default function createElementJSX<K extends (keyof HTMLElementTagNameMap 
                     ?
                         new Array(value)
                     :
-                        value
+                        new Array([value])
                 :
                     value
             ];
