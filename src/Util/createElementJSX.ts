@@ -43,6 +43,8 @@ export default function createElementJSX<K extends (keyof HTMLElementTagNameMap 
         [name : string] : any
     } : {}) & {
         style?: Object<{[K in CSSProp]?: String<any> | string}> | {[K in CSSProp]?: String<any> | string}
+    } & {
+        class?: Array<String<string> | string> | OriginalArray<String<string> | string>
     },
     ...childs : (string | String<any> | Node | Array<Node | string | String<any>> | (Node | string | String<any>)[] | Primitive<Node>)[])
 {
@@ -77,17 +79,28 @@ export default function createElementJSX<K extends (keyof HTMLElementTagNameMap 
         OriginalObject.entries(properties_ ? properties_ : <any>{}).map(([propertyName, value]) => {
             return [
                 propertyName,
-
                 propertyName === "style"
                 ?
                     value instanceof Object
                     ?
                         value
                     :
-                        new Object(value)
+                        new Object(<OriginalObject>value)
+                :
+                propertyName === "class"
+                ?
+                    value instanceof Array
+                    ?
+                        value
+                    :
+                    value instanceof OriginalArray
+                    ?
+                        new Array(value)
+                    :
+                        value
                 :
                     value
-            ]
+            ];
         })
     );
     const result = createElement(type, properties, changeableChilds);

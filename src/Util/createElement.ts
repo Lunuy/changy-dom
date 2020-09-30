@@ -26,6 +26,8 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
         [name : string] : any
     } : {}) & {
         style?: Object<{[K in CSSProp]?: String<any> | string}>
+    } & {
+        class?: Array<String<string> | string>
     } = <any> {},
     childNodes : Array<Node> = new Array([])) :
         K extends CreateNodeArrayFunction ?
@@ -46,7 +48,13 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
     const attributes = <{[attributeName in attributeNames[number]]?: String<any>}>OriginalObject.fromEntries(propertiesEntries.filter(([name, value]) => {
         return !eventListenerNames.includes(name) && !(typeof type === "function" && !attributeNames.includes(name)) && name != "style";
     }).map(([name, value] : any) => {
-        return [name, value instanceof String ? value : new String(value)];
+        return [
+            name,
+            name === "class" ?
+                value instanceof Array ? Array.FromChangeable(value.Map(new Function((value : (string | String<string>)) => value instanceof String ? value : new String(value)))).Join(new String("")) : value
+            :
+                value instanceof String ? value : new String(value)
+        ];
     }));
     const eventListeners = <{[eventListenerName in eventListenerNames[number]]?: Function<EventListener>}>OriginalObject.fromEntries(propertiesEntries.filter(([name, value]) => {
         return eventListenerNames.includes(name);
