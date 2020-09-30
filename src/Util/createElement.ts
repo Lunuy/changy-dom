@@ -51,7 +51,7 @@ function createElement<K extends keyof (HTMLElementTagNameMap & SVGElementTagNam
         return [
             name,
             name === "class" ?
-                Array.FromChangeable(value.Map(new Function((value : (string | String<string>)) => value instanceof String ? value : new String(value)))).Join(new String(""))
+                Array.FromChangeable(value.Map(new Function((value : (string | String<string>)) => value instanceof String ? value : new String(value)))).Join(new String(" "))
             :
                 value instanceof String ? value : new String(value)
         ];
