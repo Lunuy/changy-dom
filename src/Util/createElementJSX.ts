@@ -28,6 +28,8 @@ declare global {
                 ({[K in CSSProp]?: String<any> | string} & {[varName : string]: String<any> | string})
             } & {
                 [eventListenerName in (eventListenerNames[number])]?: EventListener
+            } & {
+                class?: Array<String<string> | string> | OriginalArray<String<string> | string> | String<string> | string
             }
         }
     }
@@ -44,7 +46,7 @@ export default function createElementJSX<K extends (keyof HTMLElementTagNameMap 
     } : {}) & {
         style?: Object<{[K in CSSProp]?: String<any> | string}> | {[K in CSSProp]?: String<any> | string}
     } & {
-        class?: Array<String<string> | string> | OriginalArray<String<string> | string>
+        class?: Array<String<string> | string> | OriginalArray<String<string> | string> | String<string> | string
     },
     ...childs : (string | String<any> | Node | Array<Node | string | String<any>> | (Node | string | String<any>)[] | Primitive<Node>)[])
 {
